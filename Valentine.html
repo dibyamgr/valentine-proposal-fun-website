@@ -1,0 +1,1200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Be My Valentine? 💕</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      .bg-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #ffecd2 0%,
+          #fcb69f 50%,
+          #ff9a9e 100%
+        );
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        z-index: 0;
+      }
+
+      @keyframes gradientShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .floating-hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .heart {
+        position: absolute;
+        font-size: 18px;
+        opacity: 0.15;
+        animation: floatUp 10s infinite ease-in-out;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.2;
+        }
+        100% {
+          transform: translateY(-20vh) rotate(180deg);
+          opacity: 0;
+        }
+      }
+
+      /* Container */
+      .container {
+        max-width: 520px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        border-radius: 30px;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        padding: 40px 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 70%
+        );
+        animation: shimmer 6s linear infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .header h1 {
+        font-family: "Great Vibes", cursive;
+        color: white;
+        font-size: 3em;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 1;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .header p {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 1em;
+        font-weight: 300;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Content */
+      .content {
+        padding: 35px 30px;
+      }
+
+      /* Input Section */
+      .input-section {
+        transition: all 0.5s ease;
+      }
+
+      .input-section.hidden {
+        display: none;
+      }
+
+      .form-group {
+        margin-bottom: 22px;
+      }
+
+      .form-group label {
+        display: block;
+        color: #c06c84;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 15px 18px;
+        border: 2px solid transparent;
+        border-radius: 15px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.95em;
+        transition: all 0.3s ease;
+        background: #f8f8f8;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #ff758c;
+        background: white;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 15px rgba(255, 117, 140, 0.12);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+        line-height: 1.6;
+      }
+
+      /* Photo upload */
+      .photo-upload {
+        margin-bottom: 22px;
+      }
+
+      .upload-area {
+        border: 2px dashed #ddd;
+        border-radius: 15px;
+        padding: 30px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #f8f8f8;
+      }
+
+      .upload-area:hover {
+        border-color: #ff758c;
+        background: #fff5f7;
+      }
+
+      .upload-area.has-image {
+        padding: 0;
+        border: none;
+        background: transparent;
+      }
+
+      .upload-preview {
+        display: none;
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 15px;
+      }
+
+      .upload-preview.active {
+        display: block;
+      }
+
+      .upload-icon {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .upload-text {
+        color: #888;
+        font-size: 0.88em;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .continue-btn {
+        width: 100%;
+        padding: 17px;
+        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-size: 1.05em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+        box-shadow: 0 6px 20px rgba(255, 117, 140, 0.3);
+      }
+
+      .continue-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(255, 117, 140, 0.4);
+      }
+
+      /* Question Section */
+      .question-section {
+        display: none;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .question-section.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .partner-name {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.8em;
+        background: linear-gradient(135deg, #ff758c 0%, #c06c84 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+        line-height: 1.2;
+      }
+
+      .question-text {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6em;
+        color: #555;
+        font-weight: 400;
+      }
+
+      /* Response area - COMPACT */
+      .response-area {
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0 25px 0;
+      }
+
+      .gif-container {
+        text-align: center;
+        display: none;
+      }
+
+      .gif-container.active {
+        display: block;
+        animation: zoomIn 0.5s ease;
+      }
+
+      @keyframes zoomIn {
+        from {
+          opacity: 0;
+          transform: scale(0.85);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .gif-text {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4em;
+        color: #ff758c;
+        margin-bottom: 18px;
+        font-weight: 600;
+        font-style: italic;
+      }
+
+      .gif-image {
+        max-width: 100%;
+        max-height: 240px;
+        border-radius: 20px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .final-plea {
+        display: none;
+        text-align: center;
+        padding: 30px 25px;
+        background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 100%);
+        border-radius: 20px;
+      }
+
+      .final-plea.active {
+        display: block;
+        animation: gentle-pulse 1.5s ease;
+      }
+
+      @keyframes gentle-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      .final-plea h3 {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.5em;
+        color: #ff758c;
+        margin-bottom: 15px;
+      }
+
+      .final-plea p {
+        font-size: 1.05em;
+        color: #666;
+        line-height: 1.7;
+      }
+
+      /* Buttons - IMPROVED CHALLENGE DESIGN */
+      .buttons-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .yes-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 20px 40px;
+        border-radius: 15px;
+        font-size: 1.25em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+        letter-spacing: 0.5px;
+      }
+
+      .yes-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.45);
+      }
+
+      .no-section {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .challenge-text {
+        font-size: 0.85em;
+        color: #ff758c;
+        font-weight: 600;
+        font-style: italic;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .challenge-text::before,
+      .challenge-text::after {
+        content: "😏";
+      }
+
+      .no-btn {
+        background: white;
+        color: #999;
+        border: 2px solid #e0e0e0;
+        padding: 14px 35px;
+        border-radius: 15px;
+        font-size: 0.95em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-block;
+      }
+
+      .no-btn:hover {
+        border-color: #ff758c;
+        color: #ff758c;
+      }
+
+      /* Success Screen - BETTER DESIGN */
+      .success-screen {
+        display: none;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .success-screen.active {
+        display: block;
+      }
+
+      .success-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .success-title {
+        font-family: "Great Vibes", cursive;
+        font-size: 3.5em;
+        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+        line-height: 1.3;
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 8px rgba(255, 117, 140, 0.3));
+        }
+        50% {
+          filter: drop-shadow(0 0 15px rgba(255, 117, 140, 0.5));
+        }
+      }
+
+      .success-subtitle {
+        font-size: 0.95em;
+        color: #888;
+        font-weight: 300;
+      }
+
+      /* Photo display */
+      .photo-display {
+        width: 100%;
+        height: 320px;
+        margin: 0 auto 30px;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+        position: relative;
+      }
+
+      .photo-display img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .photo-display.no-photo {
+        background: linear-gradient(
+          135deg,
+          #ff758c 0%,
+          #ff7eb3 50%,
+          #c06c84 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .photo-placeholder-icon {
+        font-size: 5em;
+        margin-bottom: 15px;
+        opacity: 0.9;
+      }
+
+      .photo-placeholder-text {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.2em;
+        color: white;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Messages section - BETTER DESIGN WITHOUT CARDS */
+      .messages-section {
+        margin-top: 35px;
+      }
+
+      .message-item {
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .message-from {
+        font-size: 0.75em;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .message-content {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25em;
+        color: #444;
+        line-height: 1.8;
+        font-weight: 400;
+        padding: 0 10px;
+      }
+
+      .divider {
+        text-align: center;
+        margin: 35px 0;
+        position: relative;
+      }
+
+      .divider-line {
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(255, 117, 140, 0.3),
+          transparent
+        );
+        margin: 15px 0;
+      }
+
+      .heart-icon {
+        font-size: 2em;
+        color: #ff758c;
+        animation: heartbeat 2s ease-in-out infinite;
+      }
+
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+      }
+
+      .final-section {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px dashed rgba(255, 117, 140, 0.2);
+      }
+
+      .final-text {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.5em;
+        color: #c06c84;
+        margin-bottom: 12px;
+      }
+
+      .names-text {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3em;
+        color: #777;
+        font-style: italic;
+      }
+
+      /* Music Control */
+      .music-control {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 100;
+      }
+
+      .music-control:hover {
+        transform: scale(1.08);
+      }
+
+      .music-control.playing {
+        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        animation: music-pulse 2s ease infinite;
+      }
+
+      .music-control.playing .music-icon {
+        color: white;
+      }
+
+      @keyframes music-pulse {
+        0%,
+        100% {
+          box-shadow: 0 6px 20px rgba(255, 117, 140, 0.3);
+        }
+        50% {
+          box-shadow: 0 6px 30px rgba(255, 117, 140, 0.5);
+        }
+      }
+
+      .music-icon {
+        font-size: 1.6em;
+        color: #ff758c;
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .container {
+          border-radius: 25px;
+        }
+
+        .header {
+          padding: 35px 25px;
+        }
+
+        .header h1 {
+          font-size: 2.5em;
+        }
+
+        .content {
+          padding: 30px 25px;
+        }
+
+        .partner-name {
+          font-size: 2.3em;
+        }
+
+        .question-text {
+          font-size: 1.4em;
+        }
+
+        .response-area {
+          min-height: 250px;
+        }
+
+        .gif-text {
+          font-size: 1.2em;
+        }
+
+        .gif-image {
+          max-height: 200px;
+        }
+
+        .yes-btn {
+          font-size: 1.15em;
+          padding: 18px 35px;
+        }
+
+        .success-title {
+          font-size: 3em;
+        }
+
+        .photo-display {
+          height: 280px;
+        }
+
+        .photo-placeholder-icon {
+          font-size: 4em;
+        }
+
+        .photo-placeholder-text {
+          font-size: 1.8em;
+        }
+
+        .message-content {
+          font-size: 1.15em;
+        }
+
+        .final-text {
+          font-size: 2.2em;
+        }
+
+        .names-text {
+          font-size: 1.15em;
+        }
+
+        .music-control {
+          width: 55px;
+          height: 55px;
+          bottom: 15px;
+          right: 15px;
+        }
+
+        .music-icon {
+          font-size: 1.4em;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .header h1 {
+          font-size: 2.2em;
+        }
+
+        .partner-name {
+          font-size: 2em;
+        }
+
+        .question-text {
+          font-size: 1.25em;
+        }
+
+        .success-title {
+          font-size: 2.5em;
+        }
+
+        .photo-display {
+          height: 240px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated background -->
+    <div class="bg-gradient"></div>
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Music control -->
+    <div class="music-control" id="musicControl" title="Music">
+      <div class="music-icon">♫</div>
+    </div>
+
+    <!-- Audio element -->
+    <audio id="bgMusic" loop preload="auto">
+      <source
+        src="https://cdn.pixabay.com/audio/2024/11/23/audio_98cd4c0d89.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <div class="container">
+      <div class="header">
+        <h1>Be My Valentine</h1>
+        <p>A moment to remember forever</p>
+      </div>
+
+      <div class="content">
+        <!-- Input Section -->
+        <div class="input-section" id="inputSection">
+          <form id="valentineForm">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input
+                type="text"
+                id="yourName"
+                placeholder="Enter your name..."
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Partner's Name</label>
+              <input
+                type="text"
+                id="partnerName"
+                placeholder="Enter their name..."
+                required
+              />
+            </div>
+
+            <div class="photo-upload">
+              <label
+                style="
+                  display: block;
+                  color: #c06c84;
+                  font-weight: 600;
+                  margin-bottom: 10px;
+                  font-size: 0.9em;
+                "
+                >Add a Photo (Optional)</label
+              >
+              <div class="upload-area" id="uploadArea">
+                <input
+                  type="file"
+                  id="photoInput"
+                  class="file-input"
+                  accept="image/*"
+                />
+                <img id="photoPreview" class="upload-preview" />
+                <div id="uploadPrompt">
+                  <div class="upload-icon">📸</div>
+                  <div class="upload-text">Click to upload</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Your Message (if they say yes)</label>
+              <textarea
+                id="yourMessage"
+                placeholder="Express your feelings..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="continue-btn">Continue</button>
+          </form>
+        </div>
+
+        <!-- Question Section -->
+        <div class="question-section" id="questionSection">
+          <div class="question-header">
+            <div class="partner-name" id="displayPartnerName"></div>
+            <div class="question-text">Will you be my Valentine?</div>
+          </div>
+
+          <div class="response-area" id="responseArea">
+            <div class="gif-container" id="gif1">
+              <div class="gif-text">Oh no... please don't!</div>
+              <img
+                class="gif-image"
+                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzN2Ym02YjRjeGV6OGt3MWgyazY3cmswdjlsdzF5OXN0ajgyZmZhYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BEob5qwFkSJ7G/giphy.gif"
+                alt="Sad cat"
+              />
+            </div>
+
+            <div class="gif-container" id="gif2">
+              <div class="gif-text">Give me another chance!</div>
+              <img
+                class="gif-image"
+                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHZ3cnJ2MW02cTg5ajJ2MjNsYzR6MjYzc3I0ZGx5ZTh1YmkxbmJ2byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ty9Sg8oHghPWg/giphy.gif"
+                alt="Please"
+              />
+            </div>
+
+            <div class="gif-container" id="gif3">
+              <div class="gif-text">You're breaking my heart...</div>
+              <img
+                class="gif-image"
+                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3VhYzJ2bHpscW5pNW95MmZvOGJkYjN2aDBwMWp6d3JnMHlzejR0bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/14ut8PhnIwzros/giphy.gif"
+                alt="Crying"
+              />
+            </div>
+
+            <div class="final-plea" id="finalPlea">
+              <h3>Pls say yes babeee 🥺</h3>
+              <p>
+                I promise to make every day special. You're my favorite person
+                in the whole world, and I can't imagine this without you.
+                Please? 💕
+              </p>
+            </div>
+          </div>
+
+          <div class="buttons-container">
+            <button class="yes-btn" onclick="handleYes()">
+              Yes! Yes!! Yes!!! 💕
+            </button>
+
+            <div class="no-section">
+              <div class="challenge-text">Try saying no</div>
+              <button class="no-btn" id="noBtn" onclick="handleNo()">No</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="successScreen">
+          <div class="success-header">
+            <div class="success-title">You Said Yes!</div>
+            <div class="success-subtitle">
+              This is the beginning of something beautiful ✨
+            </div>
+          </div>
+
+          <div class="photo-display" id="photoDisplay">
+            <div class="photo-placeholder-icon">💕</div>
+            <div class="photo-placeholder-text">Forever Together</div>
+          </div>
+
+          <div class="messages-section">
+            <div class="message-item">
+              <div class="message-from">From <span id="fromName"></span></div>
+              <div class="message-content" id="userMessage"></div>
+            </div>
+
+            <div class="divider">
+              <div class="divider-line"></div>
+              <div class="heart-icon">♥</div>
+              <div class="divider-line"></div>
+            </div>
+
+            <div class="message-item">
+              <div class="message-from">To <span id="toName"></span></div>
+              <div class="message-content">
+                Every moment with you feels like a beautiful dream. Thank you
+                for making my heart complete and for saying yes to this journey
+                together.
+              </div>
+            </div>
+
+            <div class="final-section">
+              <div class="final-text">Forever & Always</div>
+              <div class="names-text">
+                <span id="name1"></span> & <span id="name2"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <script>
+      // Create floating hearts
+      function createFloatingHearts() {
+        const container = document.getElementById("floatingHearts");
+        const hearts = ["💕", "💖", "💗", "💝", "💘"];
+
+        for (let i = 0; i < 12; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.fontSize = Math.random() * 12 + 14 + "px";
+          heart.style.animationDelay = Math.random() * 5 + "s";
+          heart.style.animationDuration = Math.random() * 5 + 8 + "s";
+          container.appendChild(heart);
+        }
+      }
+
+      createFloatingHearts();
+
+      // Music control
+      const music = document.getElementById("bgMusic");
+      const musicControl = document.getElementById("musicControl");
+      const musicIcon = document.querySelector(".music-icon");
+      let isPlaying = false;
+
+      // Try to autoplay
+      document.addEventListener("DOMContentLoaded", () => {
+        music
+          .play()
+          .then(() => {
+            isPlaying = true;
+            musicIcon.textContent = "♫";
+            musicControl.classList.add("playing");
+          })
+          .catch(() => {
+            console.log("Autoplay prevented. Click to play.");
+          });
+      });
+
+      musicControl.addEventListener("click", () => {
+        if (isPlaying) {
+          music.pause();
+          musicIcon.textContent = "♪";
+          musicControl.classList.remove("playing");
+        } else {
+          music.play();
+          musicIcon.textContent = "♫";
+          musicControl.classList.add("playing");
+        }
+        isPlaying = !isPlaying;
+      });
+
+      // Photo upload
+      const photoInput = document.getElementById("photoInput");
+      const photoPreview = document.getElementById("photoPreview");
+      const uploadArea = document.getElementById("uploadArea");
+      const uploadPrompt = document.getElementById("uploadPrompt");
+      let uploadedPhoto = null;
+
+      uploadArea.addEventListener("click", () => {
+        photoInput.click();
+      });
+
+      photoInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            uploadedPhoto = e.target.result;
+            photoPreview.src = uploadedPhoto;
+            photoPreview.classList.add("active");
+            uploadPrompt.style.display = "none";
+            uploadArea.classList.add("has-image");
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Form submission
+      let yourNameValue, partnerNameValue, messageValue;
+
+      document
+        .getElementById("valentineForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          yourNameValue = document.getElementById("yourName").value;
+          partnerNameValue = document.getElementById("partnerName").value;
+          messageValue = document.getElementById("yourMessage").value;
+
+          document.getElementById("displayPartnerName").textContent =
+            partnerNameValue;
+          document.getElementById("fromName").textContent = yourNameValue;
+          document.getElementById("toName").textContent = partnerNameValue;
+          document.getElementById("userMessage").textContent = messageValue;
+          document.getElementById("name1").textContent = yourNameValue;
+          document.getElementById("name2").textContent = partnerNameValue;
+
+          // Photo setup
+          const photoDisplay = document.getElementById("photoDisplay");
+          if (uploadedPhoto) {
+            photoDisplay.innerHTML = `<img src="${uploadedPhoto}" alt="Couple photo">`;
+            photoDisplay.classList.remove("no-photo");
+          } else {
+            photoDisplay.classList.add("no-photo");
+          }
+
+          document.getElementById("inputSection").classList.add("hidden");
+          document.getElementById("questionSection").classList.add("active");
+
+          // Ensure music plays
+          if (!isPlaying) {
+            music.play().catch((e) => console.log("Audio play failed:", e));
+            musicIcon.textContent = "♫";
+            musicControl.classList.add("playing");
+            isPlaying = true;
+          }
+        });
+
+      // No button handler
+      let noClickCount = 0;
+
+      function handleNo() {
+        noClickCount++;
+
+        document.getElementById("gif1").classList.remove("active");
+        document.getElementById("gif2").classList.remove("active");
+        document.getElementById("gif3").classList.remove("active");
+        document.getElementById("finalPlea").classList.remove("active");
+
+        if (noClickCount === 1) {
+          document.getElementById("gif1").classList.add("active");
+        } else if (noClickCount === 2) {
+          document.getElementById("gif2").classList.add("active");
+        } else if (noClickCount === 3) {
+          document.getElementById("gif3").classList.add("active");
+        } else if (noClickCount >= 4) {
+          document.getElementById("finalPlea").classList.add("active");
+        }
+      }
+
+      // Yes button handler
+      function handleYes() {
+        document.getElementById("questionSection").classList.remove("active");
+        document.getElementById("successScreen").classList.add("active");
+
+        // Beautiful confetti!
+        launchConfetti();
+      }
+
+      // Confetti function
+      function launchConfetti() {
+        const duration = 5 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = {
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          zIndex: 9999,
+        };
+
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        const interval = setInterval(function () {
+          const timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          const particleCount = 50 * (timeLeft / duration);
+
+          confetti({
+            ...defaults,
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+            colors: [
+              "#ff758c",
+              "#ff7eb3",
+              "#c06c84",
+              "#667eea",
+              "#764ba2",
+              "#ffc0cb",
+            ],
+          });
+          confetti({
+            ...defaults,
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+            colors: [
+              "#ff758c",
+              "#ff7eb3",
+              "#c06c84",
+              "#667eea",
+              "#764ba2",
+              "#ffc0cb",
+            ],
+          });
+        }, 250);
+
+        // Heart burst
+        setTimeout(() => {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#ff758c", "#ff7eb3", "#ffc0cb"],
+            shapes: ["circle"],
+            scalar: 1.5,
+          });
+        }, 500);
+      }
+    </script>
+  </body>
+</html>
